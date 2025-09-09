@@ -1,14 +1,168 @@
 """
 Intent classification module for healthcare chatbot.
-Uses zero-shot classification to determine user intent.
+Uses both TF-IDF and zero-shot classification to determine user intent.
 """
 
 from transformers import pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from typing import Dict, List, Tuple
 import re
+import numpy as np
 
 
-class IntentClassifier:
+class TFIDFIntentClassifier:
+    """Handles intent classification using TF-IDF and cosine similarity."""
+    
+    def __init__(self):
+        """Initialize the TF-IDF intent classifier."""
+        self.vectorizer = TfidfVectorizer(
+            max_features=1000,
+            stop_words='english',
+            ngram_range=(1, 2)
+        )
+        
+        # Golden sentences for each intent
+        self.golden_sentences = {
+            "General Health FAQ": [
+                "What are the symptoms of flu?",
+                "How do I treat a headache?",
+                "What causes high blood pressure?",
+                "Tell me about diabetes symptoms",
+                "How to prevent heart disease?",
+                "What are the signs of infection?",
+                "How to manage stress?",
+                "What is the treatment for fever?"
+            ],
+            "Healthy Lifestyle Tip": [
+                "Give me advice on healthy eating",
+                "How to exercise properly?",
+                "Tips for better sleep",
+                "Healthy diet recommendations",
+                "Exercise routine suggestions",
+                "Sleep hygiene tips",
+                "Nutritional advice",
+                "Fitness recommendations"
+            ],
+            "Hospital Information": [
+                "Tell me about hospital hours",
+                "What is the contact information?",
+                "How to book an appointment?",
+                "What departments are available?",
+                "Hospital address and location",
+                "Emergency services information",
+                "Working hours and schedule",
+                "Contact phone number"
+            ],
+            "Greeting or Chit-chat": [
+                "Hello, how are you?",
+                "Hi there, good morning",
+                "Thanks for your help",
+                "Goodbye and take care",
+                "How is everything?",
+                "Nice to meet you",
+                "Have a great day",
+                "See you later"
+            ]
+        }
+        
+        self.intent_vectors = None
+        self.intent_labels = None
+        self._fit_vectorizer()
+    
+    def _fit_vectorizer(self):
+        """Fit the TF-IDF vectorizer on golden sentences."""
+        all_sentences = []
+        all_labels = []
+        
+        for intent, sentences in self.golden_sentences.items():
+            all_sentences.extend(sentences)
+            all_labels.extend([intent] * len(sentences))
+        
+        # Fit vectorizer and transform sentences
+        self.intent_vectors = self.vectorizer.fit_transform(all_sentences)
+        self.intent_labels = all_labels
+    
+    def clean_query(self, query: str) -> str:
+        """Clean and normalize the user query."""
+        if not isinstance(query, str):
+            return ""
+        
+        # Remove extra whitespace
+        query = re.sub(r'\s+', ' ', query.strip())
+        
+        # Convert to lowercase
+        query = query.lower()
+        
+        return query
+    
+    def classify_intent(self, query: str) -> Tuple[str, float]:
+        """
+        Classify the user's query into one of the predefined intents.
+        
+        Args:
+            query: User's input query
+            
+        Returns:
+            Tuple of (intent, confidence_score)
+        """
+        cleaned_query = self.clean_query(query)
+        
+        if not cleaned_query:
+            return "Fallback", 0.0
+        
+        # Transform query to TF-IDF vector
+        query_vector = self.vectorizer.transform([cleaned_query])
+        
+        # Calculate cosine similarity with all golden sentences
+        similarities = cosine_similarity(query_vector, self.intent_vectors).flatten()
+        
+        # Get the highest similarity score
+        max_similarity_idx = np.argmax(similarities)
+        max_similarity = similarities[max_similarity_idx]
+        predicted_intent = self.intent_labels[max_similarity_idx]
+        
+        # Apply confidence threshold
+        confidence_threshold = 0.3
+        if max_similarity >= confidence_threshold:
+            return predicted_intent, float(max_similarity)
+        else:
+            return "Fallback", float(max_similarity)
+    
+    def get_intent_confidence(self, query: str) -> Dict[str, float]:
+        """
+        Get confidence scores for all intents.
+        
+        Args:
+            query: User's input query
+            
+        Returns:
+            Dictionary mapping intents to confidence scores
+        """
+        cleaned_query = self.clean_query(query)
+        
+        if not cleaned_query:
+            return {intent: 0.0 for intent in self.golden_sentences.keys()}
+        
+        # Transform query to TF-IDF vector
+        query_vector = self.vectorizer.transform([cleaned_query])
+        
+        # Calculate cosine similarity with all golden sentences
+        similarities = cosine_similarity(query_vector, self.intent_vectors).flatten()
+        
+        # Group similarities by intent
+        intent_scores = {}
+        for intent in self.golden_sentences.keys():
+            intent_scores[intent] = 0.0
+        
+        for i, similarity in enumerate(similarities):
+            intent = self.intent_labels[i]
+            intent_scores[intent] = max(intent_scores[intent], similarity)
+        
+        return intent_scores
+
+
+class ZSIntentClassifier:
     """Handles intent classification using zero-shot classification."""
     
     def __init__(self, model_name: str = "facebook/bart-large-mnli"):
