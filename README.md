@@ -14,7 +14,7 @@ The system uses intent classification, vector search, and LLM generation to prov
 
 #### Architecture
 
-![architecture](assets/lingobot.png)
+![architecture](assets/lingobot-arch.png)
 
 - **Intent Classification**: TF-IDF based classification to route queries
 - **Vector Search**: FAISS indices for semantic search of FAQ and tips
