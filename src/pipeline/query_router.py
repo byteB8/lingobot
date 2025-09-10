@@ -109,7 +109,7 @@ class QueryRouter:
         try:
             # Use hospital lookup for better search
             hospital_context = self.hospital_lookup.lookup(query)
-            
+
             return {
                 'intent': intent,
                 'confidence': confidence,
@@ -146,4 +146,3 @@ class QueryRouter:
             'context': [],
             'query': query
         }
-

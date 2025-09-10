@@ -1,0 +1,66 @@
+{
+  "hospital": {
+    "name": "Lingo Healthcare",
+    "address": "AB13 318, IIT Gandhinagar, Palaj Campus, Gujarat, India",
+    "contact": {
+      "phone": "+91-1234567890",
+      "email": "support@lingohealthcare.com"
+    },
+    "working_hours": {
+      "monday_to_friday": "09:00 AM - 07:00 PM",
+      "saturday": "09:00 AM - 02:00 PM",
+      "sunday": "Closed"
+    },
+    "appointment": {
+      "booking_methods": [
+        "Call reception at +91-9876543210",
+        "Email support@lingohealthcare.com",
+        "Book online at www.lingohealthcare.com"
+      ],
+      "emergency": "24/7 emergency services available"
+    },
+    "departments": [
+      "General",
+      "Pediatrics",
+      "Orthopedics",
+      "Dermatology",
+      "Cardiology",
+      "Neurology",
+      "Endocrinology",
+      "Gastroenterology",
+      "Hematology",
+      "Oncology",
+      "Psychiatry"
+    ],
+    "faq": [
+      {
+        "question": "What is the address of the hospital?",
+        "answer": "The address of the hospital is AB13 318, IIT Gandhinagar, Palaj Campus, Gujarat, India"
+      },
+      {
+        "question": "What is the contact number of the hospital?",
+        "answer": "The contact number of the hospital is +91-1234567890"
+      },
+      {
+        "question": "What is the email id of the hospital?",
+        "answer": "The email id of the hospital is support@lingohealthcare.com"
+      },
+      {
+        "question": "What is the website of the hospital?",
+        "answer": "The website of the hospital is www.lingohealthcare.com"
+      },
+      {
+        "question": "What is the working hours of the hospital?",
+        "answer": "The working hours of the hospital are 09:00 AM - 07:00 PM, 09:00 AM - 02:00 PM, Closed on Sunday"
+      },
+      {
+        "question": "What is the emergency services of the hospital?",
+        "answer": "The emergency services of the hospital are 24/7 emergency services available"
+      },
+      {
+        "question": "What is the departments of the hospital?",
+        "answer": "The departments of the hospital are General, Pediatrics, Orthopedics, Dermatology, Cardiology, Neurology, Endocrinology, Gastroenterology, Hematology, Oncology, Psychiatry"
+      }
+    ]
+  }
+}

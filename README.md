@@ -1,8 +1,8 @@
-# LingoBot - Healthcare Information Assistant
+### LingoBot - Healthcare Information Assistant
 
 A domain-specific chatbot that provides general health FAQs, lifestyle tips, and hospital information using RAG (Retrieval-Augmented Generation) architecture.
 
-## Overview
+#### Overview
 
 LingBot is a healthcare information assistant that helps users with:
 - General health questions and FAQs
@@ -12,7 +12,9 @@ LingBot is a healthcare information assistant that helps users with:
 
 The system uses intent classification, vector search, and LLM generation to provide accurate, context-aware responses while maintaining safety through disclaimers and content filtering.
 
-## Architecture
+#### Architecture
+
+![architecture](assets/lingobot.png)
 
 - **Intent Classification**: TF-IDF based classification to route queries
 - **Vector Search**: FAISS indices for semantic search of FAQ and tips
@@ -20,13 +22,13 @@ The system uses intent classification, vector search, and LLM generation to prov
 - **LLM Generation**: Qwen2-1.5B model for response generation
 - **Safety Filtering**: Content validation and educational disclaimers
 
-## Data Sources
+#### Data Sources
 
 - **FAQ Data**: 16,412 medical Q&A pairs from MedQuad dataset
 - **Lifestyle Tips**: 79 health and wellness tips from WHO, CDC, NIH
 - **Hospital Data**: Lingo Healthcare facility information and services
 
-## Installation
+#### Installation
 
 1. **Create virtual environment:**
 ```bash
@@ -43,7 +45,7 @@ source lingoEnv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Usage
+#### Usage
 
 1. **Preprocess data:**
 ```bash
@@ -63,7 +65,7 @@ python3 main.py
 4. **Access interface:**
 Open browser to `http://localhost:7860`
 
-## Example Queries
+#### Example Queries
 
 - "What are the symptoms of flu?"
 - "How much sleep should I get?"
@@ -71,7 +73,7 @@ Open browser to `http://localhost:7860`
 - "Give me tips for healthy eating"
 - "How to book an appointment?"
 
-## Project Structure
+#### Project Structure
 
 ```
 task1/
@@ -85,6 +87,6 @@ task1/
 └── requirements.txt      # Dependencies
 ```
 
-## License
+#### License
 
 This project is for educational purposes only and not a substitute for professional medical advice.
