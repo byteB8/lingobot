@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main entry point for LingBot Healthcare Assistant.
+Main entry point for LingoBot Healthcare Assistant.
 """
 
 import sys
@@ -13,8 +13,8 @@ from deployment.gradio_interface import LingBotInterface
 
 
 def main():
-    """Main function to run LingBot."""
-    print("🤖 Starting LingBot Healthcare Assistant...")
+    """Main function to run LingoBot."""
+    print("🤖 Starting LingoBot Healthcare Assistant...")
     
     try:
         # Create and launch interface
@@ -22,9 +22,9 @@ def main():
         lingbot.launch(share=False, server_port=7860)
         
     except KeyboardInterrupt:
-        print("\n👋 LingBot stopped by user")
+        print("\n👋 LingoBot stopped by user")
     except Exception as e:
-        print(f"❌ Error starting LingBot: {e}")
+        print(f"❌ Error starting LingoBot: {e}")
         return 1
     
     return 0
